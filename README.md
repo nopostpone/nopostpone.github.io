@@ -1,1 +1,0 @@
-# Notes on algorithm competitions, computer science, and mathematics
