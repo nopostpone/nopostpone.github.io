@@ -44,6 +44,9 @@
  * -------------------------------------------------------------------------- */
 
 :root {
+  --vp-font-family-base: "Inter", "Source Sans Pro", sans-serif;
+  --vp-font-family-mono: "Fira Code", "Consolas", monospace;
+  
   --vp-c-default-1: var(--vp-c-gray-1);
   --vp-c-default-2: var(--vp-c-gray-2);
   --vp-c-default-3: var(--vp-c-gray-3);
@@ -68,6 +71,8 @@
   --vp-c-danger-2: var(--vp-c-red-2);
   --vp-c-danger-3: var(--vp-c-red-3);
   --vp-c-danger-soft: var(--vp-c-red-soft);
+
+  --vp-c-custom-1: 
 }
 
 /**
@@ -94,13 +99,13 @@
   --vp-home-hero-name-color: transparent;
   --vp-home-hero-name-background: -webkit-linear-gradient(
     120deg,
-    #bd34fe 30%,
+    #d2d8db 30%,
     #41d1ff
   );
 
   --vp-home-hero-image-background-image: linear-gradient(
     -45deg,
-    #bd34fe 50%,
+    #4c4c4c 50%,
     #47caff 50%
   );
   --vp-home-hero-image-filter: blur(44px);
@@ -137,3 +142,115 @@
   --docsearch-primary-color: var(--vp-c-brand-1) !important;
 }
 
+/* 导航栏自定义 */
+:root {
+  --sidebar-indent-step: 8px; 
+  --sidebar-item-gap: 2px;
+}
+
+.VPSidebarItem > .item {
+  /* 左侧预留 2px 的透明边框，作为激活时的竖条占位，防止文字抖动 */
+  border-left: 2px solid transparent; 
+  /* 文字离竖条的距离 */
+  padding-left: var(--sidebar-item-padding); 
+  /* 选项之间的上下间距 */
+  margin-bottom: var(--sidebar-item-gap);
+  /* 圆角：左边是平直的竖条，所以只给右边加圆角 */
+  border-radius: 0 3px 3px 0;
+  transition: all 0.25s ease;
+}
+
+/* 鼠标悬停时的微交互 */
+.VPSidebarItem > .item:hover {
+  background-color: var(--vp-c-bg-soft);
+}
+
+/* 导航栏字体排版 */
+
+/* Level 0: 顶层大类 (如：Algorithms) */
+.VPSidebarItem.level-0 > .item > .text {
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+  color: var(--vp-c-text-1);
+}
+
+/* Level 1: 一级子目录 (如：Solutions) */
+.VPSidebarItem.level-1 > .item > .text {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--vp-c-text-2);
+}
+
+/* Level 2 及以上: 具体文章或深层文件夹 */
+.VPSidebarItem.level-2 > .item .text,
+.VPSidebarItem.level-3 > .item .text {
+  font-weight: 400;
+  font-size: 10px;
+  color: var(--vp-c-text-2);
+}
+
+.custom-sidebar-toggle:hover {
+  color: var(--vp-c-brand);
+}
+
+.custom-sidebar-toggle {
+  margin-left: 16px;
+  padding: 4px;
+  color: var(--vp-c-text-2);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.custom-sidebar-toggle:hover {
+  color: var(--vp-c-brand);
+}
+
+
+@media (min-width: 960px) {
+  /* 给侧边栏和主内容区加上平滑的动画 */
+  .VPSidebar, .VPContent {
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+  }
+  /* 当 html 具有该类名时触发 */
+  html.custom-sidebar-hidden .VPSidebar {
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+  html.custom-sidebar-hidden {
+    --vp-sidebar-width: 0px !important;
+  }
+}
+
+.VPNavBar {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background-color: var(--vp-c-bg) !important;
+}
+
+/* 1. 让整个超链接 <a> 失去物理碰撞体积。
+      此时点它内部的任何空白区域，都会直接穿透，不会触发跳主页。*/
+.VPNavBarTitle a.title {
+  pointer-events: none !important;
+}
+
+/* 2. 仅“复活” Logo 和 文字 的点击能力。
+      原理：点击它们时，事件会按原生逻辑向上传递（冒泡）给 <a>，正常触发回主页。*/
+.VPNavBarTitle a.title .logo,
+.VPNavBarTitle a.title .text {
+  pointer-events: auto !important;
+  cursor: pointer !important; /* 恢复小手图标 */
+}
+
+/* 3. “复活”你的开关按钮。
+      原理：因为你在 Vue 里写了 .stop，点击事件走到这里就被截杀了，不会冒泡给 <a>。*/
+.custom-sidebar-toggle {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+  margin-left: 16px; 
+}
+
+.VPNavBarTitle .title {
+  border-bottom: none !important;
+  text-decoration: none !important;
+}
