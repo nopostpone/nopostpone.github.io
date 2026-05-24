@@ -9,7 +9,7 @@ hero:
       link: /notes/introduction.md
     - theme: alt
       text: 🐙 GitHub
-      link: https://github.com/your-username
+      link: https://github.com/nopostpone
 
 layout: home
 title: hi

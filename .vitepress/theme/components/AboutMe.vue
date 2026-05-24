@@ -48,7 +48,7 @@
   width: 135px;
   height: 135px;
   border-radius: 50%;
-  border: 5px solid var(--vp-avator-border);
+  border: 5px solid var(--vp-c-bg-soft);
 }
 
 @keyframes avator-transform {
